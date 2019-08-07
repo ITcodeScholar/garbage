@@ -1,5 +1,6 @@
 package com.zwb.services;
 
+import com.zwb.entity.User;
 import org.springframework.stereotype.Service;
 
 /**
@@ -11,5 +12,7 @@ public class HelloServices {
     public void hello(){
         System.out.println("hello ssm");
     }
+
+
 
 }
