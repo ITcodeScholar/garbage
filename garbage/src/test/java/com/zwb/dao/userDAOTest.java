@@ -22,11 +22,28 @@ public class userDAOTest {
 
     @Test
     public void queryTest(){
-        User user = new User();
+        /*User user = new User();
         user.setUserName("bin");
         user.setUserPwd("666666");
         user.setUserTel("15877777777");
-        userDAO.insert(user);
+        userDAO.insert(user);*/
+
+        /*测试querybynameandpwd
+        User user=new User();
+        user.setUserName("y111111");
+        user.setUserPwd("111111");
+        User user1=userDAO.queryByNameAndPwd(user);
+        System.out.println(user1);*/
+
+        /*
+        测试querybyname
+        String name="zhangwenbin";
+        User user=userDAO.queryByName(name);
+        System.out.println(user);*/
+
+        String tel="15879931291";
+        User user=userDAO.queryByTel(tel);
+        System.out.println(user);
 
 
     }

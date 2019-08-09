@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zwb.dao.CategoryDAO">
+
+
+    <resultMap id="myCategory" type="Category">
+
+        <id property="categoryId" column="catagory_id"></id>
+        <result property="categoryName" column="catagory_name"></result>
+
+        <result property="categoryImg" column="catagory_img"></result>
+
+        <result property="categoryBody" column="catagory_body"></result>
+        <result property="categoryExplain" column="catagory_explain"></result>
+
+        <result property="categoryRequire" column="catagory_require"></result>
+
+        <result property="categoryId" column="catagory_id"></result>
+        <collection property="garbages" ofType="Garbage">
+            <id property="garId" column="gar_id"></id>
+            <result property="garName" column="gar_name"></result>
+            <result property="resolveTime" column="resolve_time"></result>
+            <result property="penalty" column="penalty"></result>
+            <result property="visitNum" column="visit_num"></result>
+        </collection>
+
+
+    </resultMap>
+
+
+    <select id="queryById" resultMap="myCategory">
+        select * from t_garbage g,t_category c where g.category_id=c.category_id and  c.category_id=#{id}
+    </select>
+
+
+
+</mapper>

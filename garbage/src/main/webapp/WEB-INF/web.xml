@@ -47,7 +47,7 @@
 
   <servlet-mapping>
     <servlet-name>springmvc1</servlet-name>
-    <url-pattern>*.do</url-pattern>
+    <url-pattern>/</url-pattern>
   </servlet-mapping>
 
 

@@ -21,4 +21,16 @@ public class UserServices {
     public void insert(User user){
         userDAO.insert(user);
     }
+
+    public User queryByNameAndPwd(User user){
+       return userDAO.queryByNameAndPwd(user);
+    }
+
+    public User queryByName(String name){
+       return userDAO.queryByName(name);
+    }
+
+    public User queryByTel(String tel){
+        return userDAO.queryByTel(tel);
+    }
 }

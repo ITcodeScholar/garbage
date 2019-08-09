@@ -1,0 +1,266 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zwb.dao.CategoryMapper" >
+  <resultMap id="BaseResultMap" type="com.zwb.entity.Category" >
+    <id column="category_id" property="categoryId" jdbcType="INTEGER" />
+    <result column="category_name" property="categoryName" jdbcType="VARCHAR" />
+    <result column="category_img" property="categoryImg" jdbcType="VARCHAR" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.zwb.entity.CategoryWithBLOBs" extends="BaseResultMap" >
+    <result column="category_body" property="categoryBody" jdbcType="LONGVARCHAR" />
+    <result column="category_explain" property="categoryExplain" jdbcType="LONGVARCHAR" />
+    <result column="category_require" property="categoryRequire" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    category_id, category_name, category_img
+  </sql>
+  <sql id="Blob_Column_List" >
+    category_body, category_explain, category_require
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.zwb.entity.CategoryExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_category
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.zwb.entity.CategoryExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from t_category
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from t_category
+    where category_id = #{categoryId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from t_category
+    where category_id = #{categoryId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.zwb.entity.CategoryExample" >
+    delete from t_category
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.zwb.entity.CategoryWithBLOBs" >
+    insert into t_category (category_id, category_name, category_img, 
+      category_body, category_explain, 
+      category_require)
+    values (#{categoryId,jdbcType=INTEGER}, #{categoryName,jdbcType=VARCHAR}, #{categoryImg,jdbcType=VARCHAR}, 
+      #{categoryBody,jdbcType=LONGVARCHAR}, #{categoryExplain,jdbcType=LONGVARCHAR}, 
+      #{categoryRequire,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zwb.entity.CategoryWithBLOBs" >
+    insert into t_category
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="categoryId != null" >
+        category_id,
+      </if>
+      <if test="categoryName != null" >
+        category_name,
+      </if>
+      <if test="categoryImg != null" >
+        category_img,
+      </if>
+      <if test="categoryBody != null" >
+        category_body,
+      </if>
+      <if test="categoryExplain != null" >
+        category_explain,
+      </if>
+      <if test="categoryRequire != null" >
+        category_require,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="categoryId != null" >
+        #{categoryId,jdbcType=INTEGER},
+      </if>
+      <if test="categoryName != null" >
+        #{categoryName,jdbcType=VARCHAR},
+      </if>
+      <if test="categoryImg != null" >
+        #{categoryImg,jdbcType=VARCHAR},
+      </if>
+      <if test="categoryBody != null" >
+        #{categoryBody,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="categoryExplain != null" >
+        #{categoryExplain,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="categoryRequire != null" >
+        #{categoryRequire,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.zwb.entity.CategoryExample" resultType="java.lang.Integer" >
+    select count(*) from t_category
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update t_category
+    <set >
+      <if test="record.categoryId != null" >
+        category_id = #{record.categoryId,jdbcType=INTEGER},
+      </if>
+      <if test="record.categoryName != null" >
+        category_name = #{record.categoryName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.categoryImg != null" >
+        category_img = #{record.categoryImg,jdbcType=VARCHAR},
+      </if>
+      <if test="record.categoryBody != null" >
+        category_body = #{record.categoryBody,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.categoryExplain != null" >
+        category_explain = #{record.categoryExplain,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="record.categoryRequire != null" >
+        category_require = #{record.categoryRequire,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update t_category
+    set category_id = #{record.categoryId,jdbcType=INTEGER},
+      category_name = #{record.categoryName,jdbcType=VARCHAR},
+      category_img = #{record.categoryImg,jdbcType=VARCHAR},
+      category_body = #{record.categoryBody,jdbcType=LONGVARCHAR},
+      category_explain = #{record.categoryExplain,jdbcType=LONGVARCHAR},
+      category_require = #{record.categoryRequire,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update t_category
+    set category_id = #{record.categoryId,jdbcType=INTEGER},
+      category_name = #{record.categoryName,jdbcType=VARCHAR},
+      category_img = #{record.categoryImg,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zwb.entity.CategoryWithBLOBs" >
+    update t_category
+    <set >
+      <if test="categoryName != null" >
+        category_name = #{categoryName,jdbcType=VARCHAR},
+      </if>
+      <if test="categoryImg != null" >
+        category_img = #{categoryImg,jdbcType=VARCHAR},
+      </if>
+      <if test="categoryBody != null" >
+        category_body = #{categoryBody,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="categoryExplain != null" >
+        category_explain = #{categoryExplain,jdbcType=LONGVARCHAR},
+      </if>
+      <if test="categoryRequire != null" >
+        category_require = #{categoryRequire,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where category_id = #{categoryId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.zwb.entity.CategoryWithBLOBs" >
+    update t_category
+    set category_name = #{categoryName,jdbcType=VARCHAR},
+      category_img = #{categoryImg,jdbcType=VARCHAR},
+      category_body = #{categoryBody,jdbcType=LONGVARCHAR},
+      category_explain = #{categoryExplain,jdbcType=LONGVARCHAR},
+      category_require = #{categoryRequire,jdbcType=LONGVARCHAR}
+    where category_id = #{categoryId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zwb.entity.Category" >
+    update t_category
+    set category_name = #{categoryName,jdbcType=VARCHAR},
+      category_img = #{categoryImg,jdbcType=VARCHAR}
+    where category_id = #{categoryId,jdbcType=INTEGER}
+  </update>
+</mapper>

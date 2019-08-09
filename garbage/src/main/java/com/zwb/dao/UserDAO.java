@@ -10,6 +10,9 @@ public interface UserDAO {
 
 
     User queryById(User user);
+    User queryByNameAndPwd(User user);
+    User queryByName(String name);
+    User queryByTel(String tel);
 
     void insert(User user);
 }

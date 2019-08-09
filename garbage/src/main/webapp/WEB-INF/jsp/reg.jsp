@@ -43,7 +43,7 @@
     </style>
 </head>
 <body>
-<form action="/user/doReg.do" onsubmit="return validate()">
+<form action="/user/doReg.do" onsubmit="return validate()" method="post">
     <div class="dowebok">
         <div class="logo"></div>
         <div class="form-item">
@@ -60,34 +60,65 @@
             <span  id="repPasswordError" style="color: red"></span>
         </div>
         <div class="form-item">
-            <input id="userTel" name="userTel" type="text"  placeholder="电话" onblur="validateTel()">
+            <input id="userTel" name="userTel" type="text"  placeholder="电话" onblur="validateTel(this)">
             <span  id="userTelError" style="color: red"></span>
         </div>
        <%-- <div class="form-item"><button id="submit">登 录</button></div>--%>
         <div class="form-item"><button id="submit">立即注册</button></div>
-        <div class="reg-bar">
-            <%--<a class="reg" href="javascript:">立即注册</a>--%>
-            <a class="forget" href="javascript:">忘记密码</a>
-        </div>
+
     </div>
 </form>
 
-    <%--<script src="../../js/jquery.min.js"></script>--%>
+
     <script>
         var panduan=false;
-        function validateUserName(th){
-
+        var userNamePanDuan;
+        var telPanDuan;
+        function validateUserName(th) {
             var reg=/^[a-zA-Z][a-zA-Z0-9]{3,15}$/;
             if(reg.test(th.value)==false){
                 document.getElementById("userNameError").innerHTML="输入的用户名由英文字母和数字组成的4-16位字符，以字母开头";
                 th.style.border="1px solid red";
                 /*$('.username-tip').show()*/
-                panduan=true;
+                userNamePanDuan=true;
             }else{
-               document.getElementById("userNameError").innerHTML=" ";
+                th.style.border="";
+                userNamePanDuan=false;
+            }
+
+            /*else{
+                document.getElementById("userNameError").innerHTML=" ";
                 th.style.border="";
                 panduan=false;
+            }*/
+            if(!userNamePanDuan) {
+                //1创建对象 xmlhttprequest
+                var request = new XMLHttpRequest();
+                //2.打开连接
+                request.open("POST", "/user/regValidate");
+                request.setRequestHeader("Content-Type", "application/json");
+                //3.注册监听
+                request.onreadystatechange = function () {
+                    //5处理数据
+                    //if (request.status != 200 || request.readyState != 4) return;
+                    var responseData = eval('(' + request.responseText + ')');
+                    /*if (!data.result){
+                        alert("用户名不可用");
+                    }*/
+                    document.getElementById("userNameError").innerHTML = responseData.userNameError;
+
+                    if(responseData.userNameError!=null){
+                    panduan = true;
+                    }else{
+                        panduan=false;
+                    }
+                }
+
+                //4.发送数据 th.value
+                request.send('{"userName":"' + th.value + '"}');
             }
+
+
         }
 
         function validatePassword(th){
@@ -122,18 +153,42 @@
             }
         }
         function validateTel(th){
+
             var reg=/^[1][3,4,5,7,8][0-9]{9}$/;
             if(reg.test(th.value)==false){
                 document.getElementById("userTelError").innerHTML="手机号码格式不对";
                 th.style.border="1px solid red";
                 /*$('.tel-tip').show()*/
-                panduan=true;
+                telPanDuan=true;
             }else{
                 document.getElementById("userTelError").innerHTML="";
                 th.style.border="";
-                panduan=false;
+                telPanDuan=false;
             }
 
+            if(!telPanDuan){
+            //1创建对象 xmlhttprequest
+            var request =new XMLHttpRequest();
+            //2.打开连接
+            request.open("POST","/user/regValidate");
+            request.setRequestHeader("Content-Type","application/json");
+            //3.注册监听
+            request.onreadystatechange=function () {
+                //5处理数据
+                var responseData=eval('('+request.responseText+')');
+
+                document.getElementById("userTelError").innerHTML=responseData.userTelError;
+
+                if(responseData.userTelError!=null){
+                    panduan=true;
+                }else{
+                    panduan=false;
+                }
+            }
+
+            //4.发送数据 th.value
+            request.send('{"userTel":"'+th.value+'"}');
+            }
         }
         function validate(){
             if(panduan){
